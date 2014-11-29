@@ -5,6 +5,27 @@
 #include "stdafx.h"
 #include "..\nkf\nkf32.h"
 
+
+void test3()
+{
+	::SetNkfOption("--guess");
+	const char *in = "\n";
+	char* out = new char[65535];
+	DWORD len;
+	boolean result = ::NkfConvertSafe(out, 65535, &len, in, strlen(in) + 1);
+	for (int i = 0; i < len; i++) {
+		printf("%02x ", out[i]);
+	}
+	wchar_t guess[256];
+	::GetNkfGuessW(guess, 256, &len);
+	printf("%s", guess);
+
+	char guessa[256];
+	::GetNkfGuessA(guessa, 256, &len);
+	printf("%s", guessa);
+
+}
+
 void test2()
 {
 	::SetNkfOption("--ic=euc-jisx0213 -w");
@@ -21,7 +42,7 @@ void test2()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	test2();
+	test3();
 }
 
 void test1()
