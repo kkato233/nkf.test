@@ -5,6 +5,30 @@
 #include "stdafx.h"
 #include "..\nkf\nkf32.h"
 
+void test_36572()
+{
+	/*
+    &test("$nkf -sW --fb-html", 
+    "\xe6\xbf\xb9\xe4\xb8\x8a", 
+    "&#28665;\x8f\xe3"); 
+	*/
+	::SetNkfOption("-sW --fb-html");
+	const char *in = "\xe6\xbf\xb9\xe4\xb8\x8a";
+	char* out = new char[65535];
+	DWORD len;
+	boolean result = ::NkfConvertSafe(out, 65535, &len, in, strlen(in) + 1);
+	for (int i = 0; i < len; i++) {
+		printf("%02x ", out[i]);
+	}
+	wchar_t guess[256];
+	::GetNkfGuessW(guess, 256, &len);
+	printf("%s", guess);
+
+	char guessa[256];
+	::GetNkfGuessA(guessa, 256, &len);
+	printf("%s", guessa);
+
+}
 
 void test3()
 {
@@ -42,7 +66,7 @@ void test2()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	test3();
+	test_36572();
 }
 
 void test1()
